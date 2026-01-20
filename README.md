@@ -1,59 +1,105 @@
 # SchoolCountdown
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.8.
+Application Angular mobile-first qui affiche un décompte dynamique jusqu’aux prochaines vacances scolaires françaises — ou jusqu’à la rentrée si l’on est déjà en vacances 😎📚
 
-## Development server
+Le but du projet est à la fois ludique et technique : travailler la géolocalisation, les API publiques et une UI agréable sur mobile.
 
-To start a local development server, run:
+## Objectifs du projet
+* Proposer une app simple et fun pour savoir combien de temps il reste avant les vacances.  
+* Exploiter des APIs publiques françaises
+* Mettre en pratique :
+  * Angular
+  * La géolocalisation navigateur 
+  * La gestion de dates 
+  * Une approche mobile-first 
+  * La géolocalisation navigateur
 
+## Fonctionnalités
+
+### Géolocalisation
+* Utilisation de l’API Geolocation du navigateur
+* Détection automatique de la position de l’utilisateur
+* Détermination de l’académie scolaire correspondante
+
+### Calendrier scolaire
+* Consommation de l’API officielle Calendrier Scolaire de data.gouv.fr
+* Récupération des périodes de vacances selon :
+  * l’académie
+  * l’année scolaire en cours
+
+### Décompte dynamique
+* Calcul automatique :
+  * “Prochaines vacances dans X jours”
+  * ou “Retour à l’école dans X jours” si l’utilisateur est en vacances
+* Mise à jour dynamique basée sur la date courante
+
+### Interface utilisateur
+* Design mobile-first
+* UI colorée et joyeuse (thème vacances / école)
+* Affichage clair et lisible sur smartphone
+
+## Stack technique
+### Frontend
+* Angular (standalone components / Angular CLI)
+* TypeScript
+* HTML5 / CSS3
+* Approche mobile-first
+* (Optionnel selon évolution)
+  * Tailwind CSS
+  * Angular Material
+
+### APIs & Web APIs
+* API Calendrier Scolaire – data.gouv.fr
+* [Geolocation API (Navigator)](https://developer.mozilla.org/fr/docs/Web/API/Geolocation_API)
+
+### Outils
+* Node.js
+* npm
+* Angular CLI
+Git / GitHub
+
+## Architecture (prévisionnelle)
+src/  
+├── app/  
+│   ├── core/  
+│   │   ├── services/  
+│   │   │   ├── geolocation.service.ts  
+│   │   │   ├── academy.service.ts  
+│   │   │   └── school-calendar.service.ts  
+│   ├── features/  
+│   │   └── countdown/  
+│   │       ├── countdown.component.ts  
+│   │       └── countdown.component.html  
+│   └── app.component.ts  
+├── assets/  
+└── environments/  
+
+## Lancer le projet en local
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+Puis ouvrir :
+```
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### La géolocalisation nécessite :
+* un navigateur compatible
+* l’autorisation de localisation
+* idéalement un contexte HTTPS (ou localhost)
 
-```bash
-ng generate --help
-```
+## Évolutions possibles
+* Sélection manuelle de l’académie
+* Mode hors-ligne
+* Animations (compte à rebours, transitions)
+* Widget PWA
+* Support multi-années scolaires
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Pourquoi ce projet ?
+Ce projet sert de terrain d’expérimentation Angular :
+* consommation d’API REST
+* services & state
+* gestion du temps et des dates
+* UX mobile-first
