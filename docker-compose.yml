@@ -1,0 +1,36 @@
+services:
+  # Service de développement
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: school-countdown-dev
+    ports:
+      - "4200:4200"
+    volumes:
+      # Synchronisation du code source
+      - .:/app
+      # Optimisation: ne pas synchroniser node_modules
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    stdin_open: true
+    tty: true
+    networks:
+      - school-countdown-network
+
+  # Service de production
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school-countdown-prod
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    networks:
+      - school-countdown-network
+
+networks:
+  school-countdown-network:
+    driver: bridge
