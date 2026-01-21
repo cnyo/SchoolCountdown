@@ -49,7 +49,7 @@ Le but du projet est à la fois ludique et technique : travailler la géolocalis
   * Angular Material
 
 ### APIs & Web APIs
-* API Calendrier Scolaire – data.gouv.fr
+* [API Calendrier Scolaire – data.gouv.fr](https://www.data.gouv.fr/dataservices/api-calendrier-scolaire)
 * [Geolocation API (Navigator)](https://developer.mozilla.org/fr/docs/Web/API/Geolocation_API)
 
 ### Outils
