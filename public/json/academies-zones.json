@@ -1,0 +1,44 @@
+{
+  "zones": {
+    "A": {
+      "name": "Zone A",
+      "academies": [
+        "Besançon",
+        "Bordeaux",
+        "Clermont-Ferrand",
+        "Dijon",
+        "Grenoble",
+        "Limoges",
+        "Lyon",
+        "Poitiers"
+      ]
+    },
+    "B": {
+      "name": "Zone B",
+      "academies": [
+        "Aix-Marseille",
+        "Amiens",
+        "Caen",
+        "Lille",
+        "Nancy-Metz",
+        "Nantes",
+        "Nice",
+        "Orléans-Tours",
+        "Reims",
+        "Rennes",
+        "Rouen",
+        "Strasbourg"
+      ]
+    },
+    "C": {
+      "name": "Zone C",
+      "academies": [
+        "Créteil",
+        "Montpellier",
+        "Paris",
+        "Toulouse",
+        "Versailles"
+      ]
+    }
+  }
+}
