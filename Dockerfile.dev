@@ -16,8 +16,11 @@ RUN npm install
 # Copier le code source
 COPY . .
 
+# Désactiver les analytics Angular
+RUN ng analytics disable
+
 # Exposer le port de développement
 EXPOSE 4200
 
 # Démarrer le serveur de développement
-CMD ["ng", "serve", "--host", "0.0.0.0", "--poll", "2000"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--poll", "2000"]
