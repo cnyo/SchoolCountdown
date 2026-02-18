@@ -1,0 +1,16 @@
+<form #academyForm=ngForm (ngSubmit)="onFormSubmit(academyForm)" class="academy-form" action="">
+  @if (errorMsg != null) {
+    <p>{{ errorMsg }}</p>
+  }
+  <select
+    id="academy"
+    name="academy"
+    [(ngModel)]="academy"
+  >
+  <option value="">--Choisissez une académie--</option>
+    @for (academy of academies(); track academy.value) {
+      <option value="{{ academy.value }}">{{ academy.label }}</option>
+    }
+  </select>
+  <button>Valider</button>
+</form>
