@@ -1,0 +1,15 @@
+@if (isLoading()) {
+  En cours de chargement...
+}
+
+@if (errorMessage) {
+  {{ errorMessage }}
+  <!--  proposer un formulaire de recherche d'académie -->
+
+}
+@else {
+  <p>Mon académie : {{ academy() }}</p>
+}
+
+<!--<app-academy-form></app-academy-form>-->
+<app-academy-form></app-academy-form>
