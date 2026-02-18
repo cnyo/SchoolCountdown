@@ -39,6 +39,12 @@
         "Toulouse",
         "Versailles"
       ]
+    },
+    "CORSE": {
+      "name": "Zone Corse",
+      "academies": [
+        "Corse"
+      ]
     }
   }
 }
