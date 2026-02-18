@@ -30,7 +30,7 @@ export class AcademyForm implements OnInit{
   }
 
   protected onFormSubmit(form: NgForm) {
-    if (this.academy) {
+    if (this.academy == "") {
       this.errorMsg.set("Veuillez sélectionner une académie.");
     }
     console.log(this.academy);

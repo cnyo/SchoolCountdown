@@ -4,12 +4,8 @@
 
 @if (errorMessage) {
   {{ errorMessage }}
-  <!--  proposer un formulaire de recherche d'académie -->
-
+  <app-academy-form></app-academy-form>
 }
 @else {
   <p>Mon académie : {{ academy() }}</p>
 }
-
-<!--<app-academy-form></app-academy-form>-->
-<app-academy-form></app-academy-form>
