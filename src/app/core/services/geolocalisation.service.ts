@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
-import {Position} from '../models/position';
+import {Localisation} from '../models/localisation';
 import {Observable} from 'rxjs';
 import {GeolocalisationError} from '../models/geolocalisationError';
 import {GeolocationErrorCode} from '../enums/geolocationErrorCode';
 
+/**
+ * Service to get the user geolocation
+ */
 @Injectable({providedIn: 'root'})
-export class UserLocationService {
+export class GeolocalisationService {
   private readonly errorMessages = {
     'NOT_SUPPORTED': 'Geolocation is not supported by this browser.',
     'PERMISSION_DENIED': 'User denied the request for Geolocation.',
@@ -17,10 +20,10 @@ export class UserLocationService {
   /**
    * Get the user geolocation
    */
-  getGeolocation(): Observable<Position> {
-    return new Observable<Position>(observer => {
+  getPosition(): Observable<Localisation> {
+    return new Observable<Localisation>(subscriber => {
       if (!("geolocation" in navigator)) {
-        observer.error({
+        subscriber.error({
           code: 0,
           message: this.errorMessages.NOT_SUPPORTED
         });
@@ -29,15 +32,15 @@ export class UserLocationService {
 
       console.log("Geolocation is supported!");
 
-      navigator.geolocation.getCurrentPosition(position => {
-        observer.next({
+      navigator.geolocation.getCurrentPosition(
+        position => {
+        subscriber.next({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         });
-        observer.complete();
       },
         error => {
-          observer.error({
+          subscriber.error({
             code: error.code,
             message: error.message
           });
