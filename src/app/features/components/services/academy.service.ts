@@ -27,7 +27,6 @@ export class AcademyService {
    * @param localisation
    */
   public getAcademyFromLocalisation(localisation: Localisation): Observable<AcademyName> {
-    console.log(localisation);
 
     return this.fetchReverseGeocodingFromLocalisation(localisation).pipe(
       // Extract deparetment code

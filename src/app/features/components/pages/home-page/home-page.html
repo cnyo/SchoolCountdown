@@ -2,10 +2,11 @@
   En cours de chargement...
 }
 
-@if (errorMessage() != null) {
+@if (errorMessage()) {
   <p>Erreur : {{ errorMessage }}</p>
   <app-academy-form></app-academy-form>
 }
-@else {
+
+@if (academy()){
   <p>Mon académie : {{ academy() }}</p>
 }
