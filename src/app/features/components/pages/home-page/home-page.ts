@@ -1,19 +1,13 @@
 import {Component, computed, inject, Signal} from '@angular/core';
-import {interval, map, of, startWith, switchMap, tap} from 'rxjs';
-import {AcademyForm} from '../../academy/components/academy-form/academy-form';
 import {AcademyFacade} from '../../../services/academy.facade';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {AcademyNameResult} from '../../../models/academyNameResult';
-import {VacationInfo} from '../../../models/vacationInfo';
 import {AcademyName} from '../../../models/academyName';
-import {getTimeDuration, getTimeRemaining} from '../../../../shared/helpers/date-utils';
-import {VacationStatus} from '../../../enums/vacationStatus';
+import {VacationRemainingInfo} from '../../../models/vacationRemainingInfo';
 
 @Component({
   selector: 'app-home-page',
-  imports: [
-    AcademyForm
-  ],
+  imports: [],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })
@@ -39,7 +33,7 @@ export class HomePage {
     return result?.type === 'error' ? result.message : null;
   });
 
-  countdown = toSignal<VacationInfo>(
+  countdown = toSignal<VacationRemainingInfo>(
     this.academyFacade.getHolidaysWithLiveCountdown(this._academyResult$),
     { initialValue: null }
   );
