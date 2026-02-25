@@ -7,7 +7,7 @@
 }
 
 @if (academyName()) {
-  <section>
+  <section id="academy">
     <h2>Académie</h2>
     <p>{{ academyName() }}</p>
   </section>
@@ -16,6 +16,10 @@
 @if (countdown()) {
   @let timeRemaining = countdown()?.timeRemaining;
   <section>
+    <h2>
+      {{ countdown()?.status == 'NEXT' ? "Prochaine vacances dans" : "Fin des vacances dans" }}
+    </h2>
+
     <p>
       {{ timeRemaining?.days }}j {{ timeRemaining?.hours }}h {{ timeRemaining?.minutes }}m {{ timeRemaining?.seconds }}s
     </p>

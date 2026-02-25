@@ -1,0 +1,201 @@
+// Style inspiré de Mario Bros - Coloré et ludique
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #5c94fc 0%, #87ceeb 100%);
+  padding: 2rem;
+  font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+
+  // Nuages décoratifs en arrière-plan
+  &::before {
+    content: '';
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 120px;
+    height: 60px;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.8;
+    box-shadow: 140px 80px 0 -10px white,
+                280px 20px 0 -5px white,
+                420px 100px 0 -15px white;
+    animation: float 20s infinite ease-in-out;
+    z-index: 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+// Conteneur d'erreur - Style bloc de question Mario
+div {
+  background: linear-gradient(135deg, #f4d03f 0%, #f39c12 100%);
+  border: 5px solid #d68910;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 600px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+              inset 0 -5px 15px rgba(0, 0, 0, 0.2);
+  animation: bounce 2s infinite;
+  position: relative;
+  z-index: 1;
+
+  p {
+    color: #8b4513;
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Sections - Style de base
+h2, p {
+  text-align: center;
+}
+
+section {
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin: 2rem auto;
+  max-width: 700px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4),
+              inset 0 5px 15px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+
+  // Effet de brillance
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shine 3s infinite;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 1.5rem;
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+// Section académie - Style tuyau vert de Mario
+#academy {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  border: 6px solid #1e8449;
+
+  h2 {
+    color: white;
+    text-shadow: 4px 4px 0 #1e8449,
+                 6px 6px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  p {
+    color: #fff;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+// Section countdown - Style pièce d'or/étoile avec animation pulse
+section:not(#academy) {
+  background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+  border: 6px solid #d68910;
+  animation: pulse 1.5s infinite ease-in-out;
+
+  h2 {
+    color: #8b4513;
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 3rem;
+    color: #8b4513;
+    background: rgba(255, 255, 255, 0.3);
+    border: 3px solid #d68910;
+    letter-spacing: 3px;
+  }
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem;
+  }
+
+  section {
+    padding: 1.5rem;
+
+    h2 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+    }
+  }
+
+  // Section countdown responsive
+  section:not(#academy) {
+    h2 {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    p {
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+  }
+
+  div {
+    padding: 1.5rem;
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+}
