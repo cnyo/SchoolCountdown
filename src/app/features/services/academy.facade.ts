@@ -88,8 +88,6 @@ export class AcademyFacade {
             )
           }))
         );
-      }),
-
-      tap(countdown => console.log(countdown))
+      })
     )}
 }
