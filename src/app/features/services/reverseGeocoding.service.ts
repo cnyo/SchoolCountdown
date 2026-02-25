@@ -1,4 +1,4 @@
-import {Localisation} from '../../../core/models/localisation';
+import {Localisation} from '../../core/models/localisation';
 import {Injectable} from '@angular/core';
 
 /**

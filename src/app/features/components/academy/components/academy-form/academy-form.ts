@@ -1,6 +1,6 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
-import {AcademyService} from '../../../services/academy.service';
+import {AcademyService} from '../../../../services/academy.service';
 import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({

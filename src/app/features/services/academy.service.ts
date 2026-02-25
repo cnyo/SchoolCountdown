@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {map, Observable, switchMap, tap} from 'rxjs';
 import {SelectOptionAcademy} from '../models/selectOptionAcademy';
 import {DepartmentAcademyMap} from '../models/DepartmentAcademyMap';
-import {Localisation} from '../../../core/models/localisation';
+import {Localisation} from '../../core/models/localisation';
 import {ReverseGeolocalisation} from '../models/reverseGeolocalisation';
 import {Academy} from '../models/academy';
 import {AcademyName} from '../models/academyName';

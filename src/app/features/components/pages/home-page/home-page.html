@@ -1,12 +1,22 @@
-@if (isLoading()) {
-  En cours de chargement...
-}
-
 @if (errorMessage()) {
-  <p>Erreur : {{ errorMessage }}</p>
-  <app-academy-form></app-academy-form>
+  <div>
+    <p>Erreur : {{ errorMessage }}</p>
+    <app-academy-form></app-academy-form>
+  </div>
 }
 
-@if (academy()){
-  <p>Mon académie : {{ academy() }}</p>
+@if (academyName()) {
+  <section>
+    <h2>Académie</h2>
+    <p>{{ academyName() }}</p>
+  </section>
+}
+
+@if (countdown()) {
+  @let timeRemaining = countdown()?.timeRemaining;
+  <section>
+    <p>
+      {{ timeRemaining?.days }}j {{ timeRemaining?.hours }}h {{ timeRemaining?.minutes }}m {{ timeRemaining?.seconds }}s
+    </p>
+  </section>
 }
