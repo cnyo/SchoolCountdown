@@ -5,8 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     container_name: school-countdown-dev
-    ports:
-      - "4200:4200"
     volumes:
       # Synchronisation du code source
       - .:/app
@@ -26,8 +24,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: school-countdown-prod
-    ports:
-      - "9004:80"
     restart: unless-stopped
     networks:
       - school-countdown-network
