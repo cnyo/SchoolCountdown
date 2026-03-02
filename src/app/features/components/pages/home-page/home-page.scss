@@ -199,3 +199,31 @@ section:not(#academy) {
     }
   }
 }
+
+// Footer
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
+  position: relative;
+  z-index: 1;
+
+  p {
+    color: white;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+    a {
+      color: #f1c40f;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #f39c12;
+        text-decoration: underline;
+      }
+    }
+  }
+}
