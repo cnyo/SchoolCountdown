@@ -1,10 +1,13 @@
 services:
   # Service de développement
   dev:
+    profiles: ["dev"]
     build:
       context: .
       dockerfile: Dockerfile.dev
     container_name: school-countdown-dev
+    ports:
+      - "9010:4200"
     volumes:
       # Synchronisation du code source
       - .:/app
@@ -24,6 +27,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: school-countdown-prod
+    ports:
+      - "9005:80"
     restart: unless-stopped
     networks:
       - school-countdown-network
