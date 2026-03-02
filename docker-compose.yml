@@ -27,7 +27,7 @@ services:
       dockerfile: Dockerfile
     container_name: school-countdown-prod
     ports:
-      - "8080:80"
+      - "9004:80"
     restart: unless-stopped
     networks:
       - school-countdown-network
