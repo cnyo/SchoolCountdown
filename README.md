@@ -75,8 +75,11 @@ src/
 │   ├── shared/  
 │   │   └── helpers/
 │   └── app.component.ts  
-├── assets/  
-└── environments/  
+├── public/  
+│   └── json/  
+│       ├── academies-zones.json  
+│       └── departement-to-academie.json  
+
 
 ## Déploiement du projet
 ```bash
