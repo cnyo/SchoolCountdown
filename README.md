@@ -43,7 +43,6 @@ Le but du projet est à la fois ludique et technique : travailler la géolocalis
 * Angular (standalone components / Angular CLI)
 * TypeScript
 * HTML5 / CSS3
-* Approche mobile-first
 * (Optionnel selon évolution)
   * Tailwind CSS
   * Angular Material
@@ -56,33 +55,41 @@ Le but du projet est à la fois ludique et technique : travailler la géolocalis
 * Node.js
 * npm
 * Angular CLI
-Git / GitHub
+* Git / GitHub
 
-## Architecture (prévisionnelle)
+## Architecture
 src/  
 ├── app/  
 │   ├── core/  
-│   │   ├── services/  
-│   │   │   ├── geolocation.service.ts  
-│   │   │   ├── academy.service.ts  
-│   │   │   └── school-calendar.service.ts  
+│   │   ├── enums/
+│   │   ├── models/
+│   │   ├── services/
 │   ├── features/  
-│   │   └── countdown/  
-│   │       ├── countdown.component.ts  
-│   │       └── countdown.component.html  
+│   │   └── components/  
+│   │       ├── academy/
+│   │       └── pages/
+│   │   └── enums/  
+│   │   └── models/  
+│   │   └── countdown/
+│   │   ├── services/
+│   ├── shared/  
+│   │   └── helpers/
 │   └── app.component.ts  
 ├── assets/  
 └── environments/  
 
-## Lancer le projet en local
+## Déploiement du projet
 ```bash
-npm install
-ng serve
+# En environnement de développement
+BUILD_ENV=development NODE_ENV=development docker compose up -d
+
+# En production
+docker compose up -d
 ```
 
 Puis ouvrir :
 ```
-http://localhost:4200
+http://localhost:9002
 ```
 
 ### La géolocalisation nécessite :
@@ -92,14 +99,10 @@ http://localhost:4200
 
 ## Évolutions possibles
 * Sélection manuelle de l’académie
-* Mode hors-ligne
 * Animations (compte à rebours, transitions)
-* Widget PWA
 * Support multi-années scolaires
 
 ## Pourquoi ce projet ?
 Ce projet sert de terrain d’expérimentation Angular :
 * consommation d’API REST
-* services & state
 * gestion du temps et des dates
-* UX mobile-first
