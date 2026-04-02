@@ -1,0 +1,98 @@
+{
+  "metropole": {
+    "label": "Métropole",
+    "options": [
+      {
+        "value": "A",
+        "label": "Zone A",
+        "academies": [
+          "Besançon",
+          "Bordeaux",
+          "Clermont-Ferrand",
+          "Dijon",
+          "Grenoble",
+          "Limoges",
+          "Lyon",
+          "Poitiers"
+        ]
+      },
+      {
+        "value": "B",
+        "label": "Zone B",
+        "academies": [
+          "Aix-Marseille",
+          "Amiens",
+          "Caen",
+          "Lille",
+          "Nancy-Metz",
+          "Nantes",
+          "Nice",
+          "Orléans-Tours",
+          "Reims",
+          "Rennes",
+          "Rouen",
+          "Strasbourg"
+        ]
+      },
+      {
+        "value": "C",
+        "label": "Zone C",
+        "academies": [
+          "Créteil",
+          "Montpellier",
+          "Paris",
+          "Toulouse",
+          "Versailles"
+        ]
+      },
+      {
+        "value": "CORSE",
+        "label": "Corse",
+        "academies": [
+          "Corse"
+        ]
+      }
+    ]
+  },
+  "outre_mer": {
+    "label": "Outre-mer",
+    "options": [
+      {
+        "value": "GUADELOUPE",
+        "label": "Guadeloupe"
+      },
+      {
+        "value": "MARTINIQUE",
+        "label": "Martinique"
+      },
+      {
+        "value": "GUYANE",
+        "label": "Guyane"
+      },
+      {
+        "value": "REUNION",
+        "label": "La Réunion"
+      },
+      {
+        "value": "MAYOTTE",
+        "label": "Mayotte"
+      },
+      {
+        "value": "NOUVELLE_CALEDONIE",
+        "label": "Nouvelle-Calédonie"
+      },
+      {
+        "value": "POLYNESIE",
+        "label": "Polynésie Française"
+      },
+      {
+        "value": "WALLIS_ET_FUTUNA",
+        "label": "Wallis-et-Futuna"
+      },
+      {
+        "value": "SAINT_PIERRE_ET_MIQUELON",
+        "label": "Saint-Pierre-et-Miquelon"
+      }
+    ]
+  }
+}

@@ -2,15 +2,18 @@
   @if (errorMsg() != null) {
     <p>{{ errorMsg() }}</p>
   }
-  <label for="academy">Sélection d'une académie</label>
   <select
     id="academy"
     name="academy"
     [(ngModel)]="academy"
   >
     <option value="">--Choisissez une académie--</option>
-    @for (academy of academies(); track academy.value) {
-      <option value="{{ academy.value }}">{{ academy.label }}</option>
+    @for (zoneGroup of zones; track zoneGroup.label) {
+      <optgroup label="{{ zoneGroup.label }}">
+        @for (zone of zoneGroup.options; track zone.value) {
+          <option value="{{ zone.value }}">{{ zone.label }}</option>
+        }
+      </optgroup>
     }
   </select>
   <button>Valider</button>

@@ -1,79 +1,66 @@
-import {Injectable, signal} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map, Observable, switchMap, tap} from 'rxjs';
-import {SelectOptionAcademy} from '../models/selectOptionAcademy';
-import {DepartmentAcademyMap} from '../models/DepartmentAcademyMap';
+import {map, Observable, tap} from 'rxjs';
 import {Localisation} from '../../core/models/localisation';
 import {ReverseGeolocalisation} from '../models/reverseGeolocalisation';
-import {Academy} from '../models/academy';
-import {AcademyName} from '../models/academyName';
+import {VACATION_ZONE_JSON, VacationZoneGroup} from '../models/vacationZoneJson';
+import {AcademyNameJson, DepartmentCodeJson, DEPARTMENTS_JSON} from '../models/departmentsJson';
+import {AcademiesJson, VACATION_ACADEMIES_ZONES} from '../models/vacationAcademiesZoneJson';
 
 /**
  * Service to resolve the academy from the department code
  */
 @Injectable({providedIn: 'root'})
 export class AcademyService {
-  private readonly ACADEMIES_JSON_URL = 'json/departement-to-academie.json';
   private readonly REVERSE_GEOCODING_URL = 'https://nominatim.openstreetmap.org/reverse?format=json';
   private dptCode: string|null = null;
-
-  academy = signal<string|null>(null);
 
   constructor(private http: HttpClient) {
   }
 
   /**
-   * Get the academy from the localisation
+   * Get the zone from the localisation
    * @param localisation
    */
-  public getAcademyFromLocalisation(localisation: Localisation): Observable<AcademyName> {
+  public getZoneFromLocalisation(localisation: Localisation): Observable<string> {
 
     return this.fetchReverseGeocodingFromLocalisation(localisation).pipe(
-      // Extract deparetment code
+      // Extract department code
       map(data => data.address['ISO3166-2-lvl6'].substring(3)),
 
       // Get academy by department code
-      switchMap(dptCode => this.getAcademyFromDptCode(dptCode)
-      ),
+      map(dptCode => {
+        if (!this.isDepartmentCode(dptCode)) {
+          throw new Error(`Code département invalide : ${dptCode}`);
+        }
 
-      map(result => result.academy ?? ''),
+        return this.getAcademyFromDptCode(dptCode);
+      }),
+
+      map(academy => {
+        if (!this.isAcademy(academy)) {
+          console.log('erreur !');
+          throw new Error(`Académie invalide : ${academy}`);
+        }
+
+        return this.getZoneFromAcademy(academy);
+      })
     );
   }
 
-  /**
-  * Get the list of academies
-  */
-  getAcademies(): Observable<SelectOptionAcademy[]> {
-    return this.getDepartmentAcademies().pipe(
-      map(data => {
-        // Récupère uniquement les valeurs (ici les académies)
-        const academies = Object.values(data);
-        // Supprime les doublons
-        const uniqueAcademies = [...new Set(academies)];
-        const sortedAcademies = uniqueAcademies.sort();
-
-        return sortedAcademies.map(academy => ({
-          label: academy,
-          value: academy
-        }))
-      })
-    );
+  public getZoneGroups(): VacationZoneGroup[] {
+    return [VACATION_ZONE_JSON.metropole, VACATION_ZONE_JSON.outre_mer];
   }
 
   /**
    * Get the academy from the department code
    */
-  private getAcademyFromDptCode(dptCode: string): Observable<Academy> {
-    return this.http.get<DepartmentAcademyMap>(this.ACADEMIES_JSON_URL).pipe(
-      map(academies => ({ academy: academies[dptCode], dptCode: dptCode}))
-    );
+  private getAcademyFromDptCode(dptCode: DepartmentCodeJson): AcademyNameJson {
+    return DEPARTMENTS_JSON[dptCode];
   }
 
-  /**
-  * Get the department academies
-  */
-  private getDepartmentAcademies(): Observable<DepartmentAcademyMap> {
-    return this.http.get<DepartmentAcademyMap>(this.ACADEMIES_JSON_URL);
+  getZoneFromAcademy(academy: AcademiesJson) {
+    return VACATION_ACADEMIES_ZONES[academy];
   }
 
   /**
@@ -85,5 +72,13 @@ export class AcademyService {
     return this.http.get<ReverseGeolocalisation>(url).pipe(
       tap(data => this.dptCode = data.address['ISO3166-2-lvl6'].substring(3)),
     );
+  }
+
+  private isDepartmentCode(value: string): value is DepartmentCodeJson {
+    return value in DEPARTMENTS_JSON;
+  }
+
+  private isAcademy(value: string): value is AcademyNameJson {
+    return value in VACATION_ACADEMIES_ZONES;
   }
 }

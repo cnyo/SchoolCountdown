@@ -2,14 +2,16 @@
   <div>
     <p>Erreur : {{ errorMessage() }}</p>
 <!--    <app-academy-form></app-academy-form>-->
-    Un formulaire sera bientôt disponible pour sélectionner manuellement votre académie :)
   </div>
 }
 
-@if (academyName()) {
+<div>
+  <app-academy-form></app-academy-form>
+</div>
+
+@if (zone()) {
   <section id="academy">
-    <h2>Académie</h2>
-    <p>{{ academyName() }}</p>
+    <p>{{ zone() }}</p>
   </section>
 }
 

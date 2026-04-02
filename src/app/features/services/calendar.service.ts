@@ -8,6 +8,7 @@ export class CalendarService {
   // private URL = "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-calendrier-scolaire/records?where=location=%27Paris%27%20AND%20start_date%3E=%272026-02-18%27&order_by=start_date"
   private URL = "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-calendrier-scolaire/records?where="
   private URI = "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-calendrier-scolaire/records?where=location='Orléans-Tour'"
+  private URIZone = "https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-calendrier-scolaire/records?where=zones='Zone A'"
   // https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-calendrier-scolaire/records?where=location=%27Orl%C3%A9ans-Tours%27%20AND%20start_date%3E=%272026-02-19%27%20AND%20population=%27-%27&order_by=start_date&limit=1
   // https://data.education.gouv.fr/api/explore/v2.1/catalog/datasets/fr-en-calendrier-scolaire/records?where=location=%27Orl%C3%A9ans-Tours%27%20AND%20start_date%3E=%272026-02-19%27%20AND%20population=%27-%27&order_by=start_date&limit=1
   constructor(private http: HttpClient) {

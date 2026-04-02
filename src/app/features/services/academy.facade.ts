@@ -2,7 +2,7 @@ import {catchError, interval, map, Observable, of, shareReplay, startWith, switc
 import {GeolocalisationService} from '../../core/services/geolocalisation.service';
 import {AcademyService} from './academy.service';
 import {Injectable} from '@angular/core';
-import {AcademyNameResult} from '../models/academyNameResult';
+import {ZoneResult} from '../models/zoneResult';
 import {VacationInfo} from '../models/vacationInfo';
 import {VacationService} from './vacation.service';
 import {VacationStatus} from '../enums/vacationStatus';
@@ -20,26 +20,27 @@ export class AcademyFacade {
   }
 
   /**
-   * Get the academy name from the localisation
+   * Get the zone name from the localisation
    * @returns
    */
-  public getAcademyName(): Observable<AcademyNameResult>  {
+  getZone() {
     return this.geolocalisationService.getPosition().pipe(
-      /** Get academy from localisation */
+
+      /** Get zone from localisation */
       switchMap(localisation =>
-        this.academyService.getAcademyFromLocalisation(localisation)
+        this.academyService.getZoneFromLocalisation(localisation)
       ),
 
-      // TODO: use enum for type
-      map(academy =>  ({
+      tap(data => console.log(data)),
+
+      map(zone =>  ({
           type: 'success' as const,
-          academyName: academy
+          zone: zone
         })
       ),
 
       /** Catch error and return empty observable */
       catchError(error => {
-        // TODO: use enum for type
         return of ({
           type: 'error' as const,
           message: this.geolocalisationService.mapErrorCodeToMessage(error)
@@ -51,7 +52,7 @@ export class AcademyFacade {
     );
   }
 
-  getCountdown(_academyResult$: Observable<AcademyNameResult>): Observable<VacationInfo|null> {
+  getCountdown(_academyResult$: Observable<ZoneResult>): Observable<VacationInfo|null> {
     return _academyResult$.pipe(
       switchMap(academyResult => {
         // Attendre que l'académie soit récupérée avec succès
@@ -67,7 +68,7 @@ export class AcademyFacade {
     )
   }
 
-  getHolidaysWithLiveCountdown(academyResult$: Observable<AcademyNameResult>): Observable<VacationRemainingInfo> {
+  getHolidaysWithLiveCountdown(academyResult$: Observable<ZoneResult>): Observable<VacationRemainingInfo> {
     return this.getCountdown(academyResult$).pipe(
       switchMap(initialCountdown => {
         if (!initialCountdown) {

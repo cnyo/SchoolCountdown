@@ -1,7 +1,8 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
-import {AcademyService} from '../../../../services/academy.service';
+import {AcademyService} from '../../../services/academy.service';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {VacationZoneGroup} from '../../../models/vacationZoneJson';
 
 @Component({
   selector: 'app-academy-form',
@@ -15,18 +16,12 @@ export class AcademyForm implements OnInit{
   private academyResolverService: AcademyService = inject(AcademyService);
 
   protected academy: string = "";
-  protected academies = toSignal(
-    this.academyResolverService.getAcademies(),
-    { initialValue: [] }
-  );
+
+  zones: VacationZoneGroup[] = this.academyResolverService.getZoneGroups();
   protected errorMsg = signal<string|null>(null);
 
   ngOnInit(): void {
-    // this.academyResolverService.getAcademies();
-    //   .subscribe(academies => {
-    //   this.optionAcademy$ = academies;
-    //   console.log(this.optionAcademy$);
-    // });
+    // const test = this.academyResolverService.getZoneGroups();
   }
 
   protected onFormSubmit(form: NgForm) {

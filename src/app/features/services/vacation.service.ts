@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AcademyNameResult} from '../models/academyNameResult';
+import {ZoneResult} from '../models/zoneResult';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, of, switchMap, throwError} from 'rxjs';
 import {VacationResult} from '../models/vacationResult';
@@ -16,15 +16,15 @@ export class VacationService {
   constructor(private http: HttpClient) {
   }
 
-  getNextVacation(academyResult: AcademyNameResult): Observable<VacationInfo> {
+  getNextVacation(academyResult: ZoneResult): Observable<VacationInfo> {
     if (!academyResult || academyResult.type === 'error') {
       return throwError(() => new Error(academyResult.message ?? 'Unexpected error'))
     }
 
-    const academyName = academyResult.academyName;
+    const zone = academyResult.zone;
     const currentDate = new Date();
     const params = new HttpParams()
-      .set('where', this.buildWhereClause(academyName, currentDate))
+      .set('where', this.buildWhereClause(zone, currentDate))
       .set('order_by', 'start_date')
       .set('limit', this.LIMIT.toString());
 
@@ -57,11 +57,11 @@ export class VacationService {
     })
   }
 
-  private buildWhereClause(academyName: string, currentDate: Date): string {
+  private buildWhereClause(zone: string, currentDate: Date): string {
     const currentDateStr = formatDateToString(currentDate);
 
     return [
-      `location='${academyName}'`,
+      `zones='${zone}'`,
       `(start_date>='${currentDateStr}' OR (start_date<='${currentDateStr}' AND end_date>='${currentDateStr}'))`,
       `population='-'`
     ].join(' AND ');

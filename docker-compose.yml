@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        BUILD_ENV: ${BUILD_ENV:-production}
+        BUILD_ENV: development
     container_name: school-countdown
     ports:
       - "9002:80"
