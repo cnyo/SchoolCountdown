@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ZoneResult} from '../models/zoneResult';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable, of, switchMap, throwError} from 'rxjs';
+import {Observable, of, switchMap} from 'rxjs';
 import {VacationResult} from '../models/vacationResult';
 import {VacationInfo} from '../models/vacationInfo';
 import {VacationStatus} from '../enums/vacationStatus';
@@ -17,12 +16,7 @@ export class VacationService {
   constructor(private http: HttpClient) {
   }
 
-  getNextVacation(academyResult: ZoneResult): Observable<VacationInfo> {
-    if (!academyResult || academyResult.type === 'error') {
-      return throwError(() => new Error(academyResult.message ?? 'Unexpected error'))
-    }
-
-    const zone = academyResult.zone;
+  getNextDateVacation(zone: Zone): Observable<VacationInfo> {
     const currentDate = new Date();
     const params = new HttpParams()
       .set('where', this.buildWhereClause(zone, currentDate))
@@ -66,20 +60,6 @@ export class VacationService {
       `(start_date>='${currentDateStr}' OR (start_date<='${currentDateStr}' AND end_date>='${currentDateStr}'))`,
       `population='-'`
     ].join(' AND ');
-  }
-
-  getNextDateVacation(zone: Zone): Observable<VacationInfo> {
-    const currentDate = new Date();
-    const params = new HttpParams()
-      .set('where', this.buildWhereClause(zone, currentDate))
-      .set('order_by', 'start_date')
-      .set('limit', this.LIMIT.toString());
-
-    return this.http.get<VacationResult>(this.URL, { params }).pipe(
-      switchMap(data => {
-        return this.getVacationDateInfo(data, currentDate);
-      })
-    );
   }
 }
 
