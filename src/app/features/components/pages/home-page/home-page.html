@@ -1,12 +1,14 @@
-@if (errorMessage()) {
-  <div>
-    <p>Erreur : {{ errorMessage() }}</p>
-<!--    <app-academy-form></app-academy-form>-->
-  </div>
-}
+<!--@if (errorMessage()) {-->
+<!--  <div>-->
+<!--    <p>Erreur : {{ errorMessage() }}</p>-->
+<!--  </div>-->
+<!--}-->
 
 <div>
-  <app-academy-form></app-academy-form>
+  <app-academy-form
+    [zone]="zone()"
+    (zoneChange)="onZoneChange($event)"
+  />
 </div>
 
 @if (zone()) {
@@ -15,11 +17,11 @@
   </section>
 }
 
-@if (countdown()) {
-  @let timeRemaining = countdown()?.timeRemaining;
+@if (vacation()) {
+  @let timeRemaining = vacation()?.timeRemaining;
   <section>
     <h2>
-      {{ countdown()?.status == 'NEXT' ? "Prochaine vacances dans" : "Fin des vacances dans" }}
+      {{ vacation()?.status == 'NEXT' ? "Prochaine vacances dans" : "Fin des vacances dans" }}
     </h2>
 
     <p>

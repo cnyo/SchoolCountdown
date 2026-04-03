@@ -1,9 +1,12 @@
-import {Component, computed, inject, Signal} from '@angular/core';
-import {AcademyFacade} from '../../../services/academy.facade';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {ZoneResult} from '../../../models/zoneResult';
-import {VacationRemainingInfo} from '../../../models/vacationRemainingInfo';
+import {Component, input, signal} from '@angular/core';
+import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {AcademyForm} from '../../academy/academy-form/academy-form';
+import {catchError, interval, map, of, startWith, switchMap, tap} from 'rxjs';
+import {Zone} from '../../../models/zone';
+import {AcademyService} from '../../../services/academy.service';
+import {VacationService} from '../../../services/vacation.service';
+import {VacationStatus} from '../../../enums/vacationStatus';
+import {getTimeDuration, getTimeRemaining} from '../../../../shared/helpers/date-utils';
 
 @Component({
   selector: 'app-home-page',
@@ -14,29 +17,59 @@ import {AcademyForm} from '../../academy/academy-form/academy-form';
   styleUrl: './home-page.scss',
 })
 export class HomePage {
-  private academyFacade = inject(AcademyFacade);
-  private _zoneResult$ = this.academyFacade.getZone();
+  readonly userZone = input<string>("");
+  readonly zone = signal<Zone>('Zone A');
+  readonly vacation = toSignal(
+    toObservable(this.zone).pipe(
+      switchMap(zone => this.fetchNextVacation(zone))
+    ),
+    { initialValue: undefined }
+  )
 
-  // Récupère l'académie via géolocalisation
-  zoneResult = toSignal<ZoneResult>(
-    this._zoneResult$,
-    { initialValue: null }
-  );
+  constructor(
+    private academyService: AcademyService,
+    private vacationService: VacationService
+  ) {
 
-  // Nom de l'académie extrait du résultat
-  zone: Signal<string | null> = computed(() => {
-    const result = this.zoneResult();
-    return result?.type === 'success' ? result.zone : null;
-  });
+    // Initialise avec la géolocalisation
+    this.initZoneFromGeolocalisation();
+  }
 
-  // Message d'erreur si échec de géolocalisation
-  errorMessage = computed(() => {
-    const result = this.zoneResult();
-    return result?.type === 'error' ? result.message : null;
-  });
+  onZoneChange(zone: Zone) {
+    this.zone.set(zone);
+  }
 
-  countdown = toSignal<VacationRemainingInfo>(
-    this.academyFacade.getHolidaysWithLiveCountdown(this._zoneResult$),
-    { initialValue: null }
-  );
+  private fetchNextVacation(zone: Zone) {
+
+    return this.vacationService.getNextDateVacation(zone).pipe(
+      tap(data => console.log(data)),
+
+      switchMap(vacationInfo => {
+        if (!vacationInfo) {
+          return of({
+            status: VacationStatus.NONE,
+            timeRemaining: {days: 0, hours: 0, minutes: 0, seconds: 0},
+            targetDate: new Date()
+          });
+        }
+
+        return interval(1000).pipe(
+          startWith(0),
+          map(() => ({
+            status: vacationInfo.status,
+            targetDate: vacationInfo.targetDate,
+            timeRemaining: getTimeDuration(
+              getTimeRemaining(vacationInfo.targetDate)
+            )
+          }))
+        );
+      }),
+    );
+  };
+
+  private initZoneFromGeolocalisation() {
+    this.academyService.getZone()
+      .pipe(catchError(() => of<Zone>('Zone A')))
+      .subscribe(zone => this.zone.set(zone));
+  }
 }

@@ -29,17 +29,17 @@ export const VACATION_ACADEMIES_ZONES = {
   "Toulouse": "Zone C",
   "Versailles": "Zone C",
 
-  "Corse": "CORSE",
+  "Corse": "Corse",
 
-  "Guadeloupe": "GUADELOUPE",
-  "Martinique": "MARTINIQUE",
-  "Guyane": "GUYANE",
-  "La Réunion": "REUNION",
-  "Mayotte": "MAYOTTE",
-  "Nouvelle-Calédonie": "NOUVELLE_CALEDONIE",
-  "Polynésie Française": "POLYNESIE",
-  "Wallis-et-Futuna": "WALLIS_ET_FUTUNA",
-  "Saint-Pierre-et-Miquelon": "SAINT_PIERRE_ET_MIQUELON"
+  "Guadeloupe": "Guadeloupe",
+  "Martinique": "Martinique",
+  "Guyane": "Guyane",
+  "La Réunion": "La Réunion",
+  "Mayotte": "Mayotte",
+  "Nouvelle-Calédonie": "Nouvelle-Calédonie",
+  "Polynésie Française": "Polynésie Française",
+  "Wallis-et-Futuna": "Wallis-et-Futuna",
+  "Saint-Pierre-et-Miquelon": "Saint-Pierre-et-Miquelon"
 } as const;
 
 export type AcademiesZoneJson = typeof VACATION_ACADEMIES_ZONES;

@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map, Observable, tap} from 'rxjs';
+import {from, map, Observable, of, shareReplay, switchMap, tap} from 'rxjs';
 import {Localisation} from '../../core/models/localisation';
 import {ReverseGeolocalisation} from '../models/reverseGeolocalisation';
 import {VACATION_ZONE_JSON, VacationZoneGroup} from '../models/vacationZoneJson';
 import {AcademyNameJson, DepartmentCodeJson, DEPARTMENTS_JSON} from '../models/departmentsJson';
 import {AcademiesJson, VACATION_ACADEMIES_ZONES} from '../models/vacationAcademiesZoneJson';
+import {Zone} from '../models/zone';
 
 /**
  * Service to resolve the academy from the department code
@@ -22,7 +23,33 @@ export class AcademyService {
    * Get the zone from the localisation
    * @param localisation
    */
-  public getZoneFromLocalisation(localisation: Localisation): Observable<string> {
+  public getZoneFromLocalisation(localisation: Localisation): Observable<String> {
+
+    return this.fetchReverseGeocodingFromLocalisation(localisation).pipe(
+      // Extract department code
+      map(data => data.address['ISO3166-2-lvl6'].substring(3)),
+
+      // Get academy by department code
+      map(dptCode => {
+        if (!this.isDepartmentCode(dptCode)) {
+          throw new Error(`Code département invalide : ${dptCode}`);
+        }
+
+        return this.getAcademyFromDptCode(dptCode);
+      }),
+
+      map(academy => {
+        if (!this.isAcademy(academy)) {
+          console.log('erreur !');
+          throw new Error(`Académie invalide : ${academy}`);
+        }
+
+        return this.getZoneFromAcademy(academy);
+      })
+    );
+  }
+
+  public getZoneFromLocalisationBrowser(localisation: Localisation): Observable<Zone> {
 
     return this.fetchReverseGeocodingFromLocalisation(localisation).pipe(
       // Extract department code
@@ -59,7 +86,7 @@ export class AcademyService {
     return DEPARTMENTS_JSON[dptCode];
   }
 
-  getZoneFromAcademy(academy: AcademiesJson) {
+  getZoneFromAcademy(academy: AcademiesJson): Zone {
     return VACATION_ACADEMIES_ZONES[academy];
   }
 
@@ -80,5 +107,60 @@ export class AcademyService {
 
   private isAcademy(value: string): value is AcademyNameJson {
     return value in VACATION_ACADEMIES_ZONES;
+  }
+
+  getZone() {
+
+    if (!navigator.geolocation) {
+      return of<Zone>('Zone A');
+    }
+
+    return from(
+      new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      })
+    ).pipe(
+
+      map(position => ({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        })
+      ),
+
+      switchMap(localisation => {
+        return this.fetchReverseGeocodingFromLocalisation(localisation)
+          .pipe(
+            // Extract department code
+            map(data => data.address['ISO3166-2-lvl6'].substring(3)),
+
+            // Get academy by department code
+            map(dptCode => {
+              if (!this.isDepartmentCode(dptCode)) {
+                throw new Error(`Code département invalide : ${dptCode}`);
+              }
+
+              return this.getAcademyFromDptCode(dptCode);
+            }),
+
+            // Get zone from academy
+            map(academy => {
+              if (!this.isAcademy(academy)) {
+                throw new Error(`Académie invalide : ${academy}`);
+              }
+
+              return this.getZoneFromAcademy(academy);
+            }),
+          );
+      }),
+
+
+      /** Get zone from localisation */
+      // map(localisation =>
+      //   this.getZoneFromLocalisationBrowser(localisation)
+      // )
+
+        /** Share replay 1 value to avoid multiple subscriptions */
+        shareReplay(1)
+    );
   }
 }

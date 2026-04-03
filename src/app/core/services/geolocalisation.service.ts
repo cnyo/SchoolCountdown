@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Localisation} from '../models/localisation';
-import {Observable} from 'rxjs';
+import {from, map, Observable, of} from 'rxjs';
 import {GeolocalisationError} from '../models/geolocalisationError';
 import {GeolocationErrorCode} from '../enums/geolocationErrorCode';
+import {Zone} from '../../features/models/zone';
 
 /**
  * Service to get the user geolocation

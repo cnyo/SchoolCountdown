@@ -8,6 +8,7 @@ import {VacationService} from './vacation.service';
 import {VacationStatus} from '../enums/vacationStatus';
 import {getTimeDuration, getTimeRemaining} from '../../shared/helpers/date-utils';
 import {VacationRemainingInfo} from '../models/vacationRemainingInfo';
+import {Zone} from '../models/zone';
 
 @Injectable({providedIn: 'root'})
 export class AcademyFacade {
@@ -91,4 +92,33 @@ export class AcademyFacade {
         );
       })
     )}
+
+  getHolidaysWithZone(academyResult$: Observable<ZoneResult>): Observable<VacationRemainingInfo> {
+    return this.getCountdown(academyResult$).pipe(
+      switchMap(initialCountdown => {
+        if (!initialCountdown) {
+          return of({
+            status: VacationStatus.NONE,
+            timeRemaining: {days: 0, hours: 0, minutes: 0, seconds: 0},
+            targetDate: new Date()
+          });
+        }
+
+        return interval(1000).pipe(
+          startWith(0),
+          map(() => ({
+            status: initialCountdown.status,
+            targetDate: initialCountdown.targetDate,
+            timeRemaining: getTimeDuration(
+              getTimeRemaining(initialCountdown.targetDate)
+            )
+          }))
+        );
+      })
+    )}
+
+  getCountdownFromNextVacation(zone: Zone) {
+    // return this.holidaysService.getNextVacation(zone)
+    return this.holidaysService.getNextDateVacation(zone);
+  }
 }

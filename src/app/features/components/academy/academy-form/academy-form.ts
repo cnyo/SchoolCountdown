@@ -1,8 +1,8 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, input, model, output, signal} from '@angular/core';
 import {FormsModule, NgForm} from '@angular/forms';
 import {AcademyService} from '../../../services/academy.service';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {VacationZoneGroup} from '../../../models/vacationZoneJson';
+import {Zone} from '../../../models/zone';
 
 @Component({
   selector: 'app-academy-form',
@@ -11,26 +11,35 @@ import {VacationZoneGroup} from '../../../models/vacationZoneJson';
   ],
   templateUrl: './academy-form.html',
   styleUrl: './academy-form.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AcademyForm implements OnInit{
+export class AcademyForm {
   private academyResolverService: AcademyService = inject(AcademyService);
 
-  protected academy: string = "";
+  readonly zone = input.required<Zone>();
+  readonly zones: VacationZoneGroup[] = this.academyResolverService.getZoneGroups();
+  readonly zoneChange = output<Zone>();
 
-  zones: VacationZoneGroup[] = this.academyResolverService.getZoneGroups();
+  /**
+   * Signal to track the currently selected zone
+   */
+  readonly selectedZone = model<Zone>('Zone A');
+
   protected errorMsg = signal<string|null>(null);
 
-  ngOnInit(): void {
-    // const test = this.academyResolverService.getZoneGroups();
+  constructor() {
+    /**
+     * Effect to update the selected zone when the zone input changes
+     */
+    effect(() => {
+      this.selectedZone.set(this.zone());
+    });
   }
 
-  protected onFormSubmit(form: NgForm) {
-    if (this.academy == "") {
-      this.errorMsg.set("Veuillez sélectionner une académie.");
-    }
-    console.log(this.academy);
+  protected onZoneSelected(form: NgForm) {
     console.log(form.value);
-
-    // Go chercher les dates de vacances
+    let zoneValue = form.value.zone;
+    this.selectedZone.set(zoneValue);
+    this.zoneChange.emit(zoneValue);
   }
 }

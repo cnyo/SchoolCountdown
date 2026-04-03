@@ -7,6 +7,7 @@ import {VacationInfo} from '../models/vacationInfo';
 import {VacationStatus} from '../enums/vacationStatus';
 import {formatDateToString} from '../../shared/helpers/date-utils';
 import {environment} from '../../../environments/environment';
+import {Zone} from '../models/zone';
 
 @Injectable({providedIn: 'root'})
 export class VacationService {
@@ -65,6 +66,20 @@ export class VacationService {
       `(start_date>='${currentDateStr}' OR (start_date<='${currentDateStr}' AND end_date>='${currentDateStr}'))`,
       `population='-'`
     ].join(' AND ');
+  }
+
+  getNextDateVacation(zone: Zone): Observable<VacationInfo> {
+    const currentDate = new Date();
+    const params = new HttpParams()
+      .set('where', this.buildWhereClause(zone, currentDate))
+      .set('order_by', 'start_date')
+      .set('limit', this.LIMIT.toString());
+
+    return this.http.get<VacationResult>(this.URL, { params }).pipe(
+      switchMap(data => {
+        return this.getVacationDateInfo(data, currentDate);
+      })
+    );
   }
 }
 
