@@ -1,0 +1,40 @@
+{
+  "Besançon": "A",
+  "Bordeaux": "A",
+  "Clermont-Ferrand": "A",
+  "Dijon": "A",
+  "Grenoble": "A",
+  "Limoges": "A",
+  "Lyon": "A",
+  "Poitiers": "A",
+
+  "Aix-Marseille": "B",
+  "Amiens": "B",
+  "Lille": "B",
+  "Nancy-Metz": "B",
+  "Nantes": "B",
+  "Nice": "B",
+  "Normandie": "B",
+  "Orléans-Tours": "B",
+  "Reims": "B",
+  "Rennes": "B",
+  "Strasbourg": "B",
+
+  "Créteil": "C",
+  "Montpellier": "C",
+  "Paris": "C",
+  "Toulouse": "C",
+  "Versailles": "C",
+
+  "Corse": "CORSE",
+
+  "Guadeloupe": "GUADELOUPE",
+  "Martinique": "MARTINIQUE",
+  "Guyane": "GUYANE",
+  "La Réunion": "REUNION",
+  "Mayotte": "MAYOTTE",
+  "Nouvelle-Calédonie": "NOUVELLE_CALEDONIE",
+  "Polynésie Française": "POLYNESIE",
+  "Wallis-et-Futuna": "WALLIS_ET_FUTUNA",
+  "Saint-Pierre-et-Miquelon": "SAINT_PIERRE_ET_MIQUELON"
+}

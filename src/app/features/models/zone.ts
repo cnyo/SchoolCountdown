@@ -1,0 +1,15 @@
+export type Zone =
+  | 'Zone A'
+  | 'Zone B'
+  | 'Zone C'
+  | 'Corse'
+  | 'Guadeloupe'
+  | 'Martinique'
+  | 'Guyane'
+  | 'La Réunion'
+  | 'Mayotte'
+  | 'Nouvelle-Calédonie'
+  | 'Polynésie Française'
+  | 'Wallis-et-Futuna'
+  | 'Saint-Pierre-et-Miquelon'
+  ;

@@ -1,23 +1,27 @@
-@if (errorMessage()) {
-  <div>
-    <p>Erreur : {{ errorMessage() }}</p>
-<!--    <app-academy-form></app-academy-form>-->
-    Un formulaire sera bientôt disponible pour sélectionner manuellement votre académie :)
-  </div>
-}
+<!--@if (errorMessage()) {-->
+<!--  <div>-->
+<!--    <p>Erreur : {{ errorMessage() }}</p>-->
+<!--  </div>-->
+<!--}-->
 
-@if (academyName()) {
+<div>
+  <app-academy-form
+    [zone]="zone()"
+    (zoneChange)="onZoneChange($event)"
+  />
+</div>
+
+@if (zone()) {
   <section id="academy">
-    <h2>Académie</h2>
-    <p>{{ academyName() }}</p>
+    <p>{{ zone() }}</p>
   </section>
 }
 
-@if (countdown()) {
-  @let timeRemaining = countdown()?.timeRemaining;
+@if (vacation()) {
+  @let timeRemaining = vacation()?.timeRemaining;
   <section>
     <h2>
-      {{ countdown()?.status == 'NEXT' ? "Prochaine vacances dans" : "Fin des vacances dans" }}
+      {{ vacation()?.status == 'NEXT' ? "Prochaine vacances dans" : "Fin des vacances dans" }}
     </h2>
 
     <p>

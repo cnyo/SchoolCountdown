@@ -1,0 +1,20 @@
+<form class="academy-form" action="">
+  @if (errorMsg() != null) {
+    <p>{{ errorMsg() }}</p>
+  }
+  <select
+    id="zone"
+    [(ngModel)]="selectedZone"
+    (ngModelChange)="onZoneSelected($event)"
+    name="zone"
+  >
+    <option value="">--Choisissez une académie--</option>
+    @for (zoneGroup of zones; track zoneGroup.label) {
+      <optgroup label="{{ zoneGroup.label }}">
+        @for (zone of zoneGroup.options; track zone.label) {
+          <option value="{{ zone.label }}">{{ zone.label }}</option>
+        }
+      </optgroup>
+    }
+  </select>
+</form>
