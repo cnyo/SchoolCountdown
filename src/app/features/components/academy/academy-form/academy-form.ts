@@ -24,7 +24,6 @@ export class AcademyForm {
    * Signal to track the currently selected zone
    */
   readonly selectedZone = model<Zone>('Zone A');
-
   protected errorMsg = signal<string|null>(null);
 
   constructor() {
@@ -36,10 +35,12 @@ export class AcademyForm {
     });
   }
 
-  protected onZoneSelected(form: NgForm) {
-    console.log(form.value);
-    let zoneValue = form.value.zone;
-    this.selectedZone.set(zoneValue);
-    this.zoneChange.emit(zoneValue);
+  onZoneSelected(zone: Zone): void {
+    console.log(zone);
+
+    this.selectedZone.set(zone);
+    this.zoneChange.emit(zone);
   }
+
+
 }

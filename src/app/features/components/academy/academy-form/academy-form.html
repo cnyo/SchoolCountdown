@@ -1,7 +1,4 @@
-<form
-  #academyForm=ngForm
-  (ngSubmit)="onZoneSelected(academyForm)"
-  class="academy-form" action="">
+<form class="academy-form" action="">
   @if (errorMsg() != null) {
     <p>{{ errorMsg() }}</p>
   }
@@ -20,5 +17,4 @@
       </optgroup>
     }
   </select>
-  <button>Valider</button>
 </form>
